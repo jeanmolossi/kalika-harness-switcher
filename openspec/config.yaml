@@ -1,48 +1,23 @@
 schema: spec-driven
 
 context: |
-  Project: Kalika Harness Switcher (`khs`), a local control plane for resolving
-  profiles and supervising isolated sessions of native AI coding harnesses.
-  It must configure and launch existing harnesses without reimplementing their
-  agent loops, tools, conversations, or vendor-owned session behavior.
+  Kalika Harness Switcher (`khs`) is a local control plane for profiles and
+  isolated sessions of native AI coding harnesses. It configures and launches
+  those tools without reimplementing their behavior.
 
-  Tech stack: Go. Initial platforms: Linux and macOS, with future Windows
-  support. Priorities, in order: simplicity, low coupling, modularity,
-  testability, security, performance, and few external dependencies.
+  Stack: Go. Platforms: Linux and macOS initially, Windows later. Priorities:
+  simplicity, low coupling, modularity, testability, security, performance,
+  and few dependencies.
 
-  Profiles describe desired capabilities. Security contexts describe execution
-  authority and credential references. Vendor-specific behavior belongs in
-  adapters; the resolver and session manager must not contain tool-name
-  conditionals. Configuration generated for one session must not mutate another
-  session or a user's global shell environment.
+  Profiles define capabilities; security contexts define authority and
+  credential references. Vendor logic belongs in adapters. Sessions must not
+  mutate each other or the user's global environment.
 
 rules:
   proposal:
-    - Explicitly identify every behavior that varies by operating system and
-      state that it must be isolated behind a platform boundary. Proposals must
-      cover Linux and macOS as the initial targets and explain how the change
-      preserves future Windows support without leaking OS-specific assumptions
-      into domain or application logic.
+    - Identify OS-specific behavior and its platform boundary for Linux and
+      macOS while preserving future Windows support.
   tasks:
-    - Every task that creates, resolves, joins, compares, or persists a
-      filesystem path must explicitly require Go's `filepath` package and the
-      native semantic resolver appropriate to the path, such as
-      `os.UserConfigDir`, `os.UserCacheDir`, `os.UserHomeDir`, or `os.TempDir`.
-      Tasks must forbid inferred environment conventions, string-concatenated
-      paths, and hardcoded Linux, macOS, or Windows directories.
-    - When the Go standard library has no native resolver for a required path
-      category, the applicable task must explicitly require a platform-specific
-      resolver with per-OS implementations and tests for supported platforms,
-      while preserving an implementation boundary for future Windows support.
-
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+    - For filesystem paths, require `filepath` and the appropriate native Go
+      resolver. If none exists, require a tested per-OS resolver. Never infer,
+      concatenate, or hardcode platform paths.
