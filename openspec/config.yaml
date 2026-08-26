@@ -16,32 +16,24 @@ context: |
   conditionals. Configuration generated for one session must not mutate another
   session or a user's global shell environment.
 
-  Filesystem paths must always be resolved through Go's native, platform-aware
-  APIs for the path's semantic category, such as os.UserConfigDir,
-  os.UserCacheDir, os.UserHomeDir, os.TempDir, and filepath operations. Never
-  infer a platform path from environment conventions, concatenate path strings,
-  or hardcode paths such as ~/.config, ~/.local/state, ~/Library, /tmp, or
-  Windows profile directories. When the Go standard library has no native
-  resolver for a required semantic category, isolate that decision behind an
-  explicit platform-specific resolver with per-OS implementations and tests;
-  never leave the path inferred or hardcoded in domain or application code.
-
-  Any behavior that varies by operating system, not only filesystem path
-  resolution, must be isolated behind an explicit platform boundary with
-  per-OS implementations and tests. Linux and macOS are the initial supported
-  platforms; designs must preserve a clean path to future Windows support and
-  must not let OS-specific conditionals or assumptions leak into domain or
-  application logic.
-
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - Explicitly identify every behavior that varies by operating system and
+      state that it must be isolated behind a platform boundary. Proposals must
+      cover Linux and macOS as the initial targets and explain how the change
+      preserves future Windows support without leaking OS-specific assumptions
+      into domain or application logic.
+  tasks:
+    - Every task that creates, resolves, joins, compares, or persists a
+      filesystem path must explicitly require Go's `filepath` package and the
+      native semantic resolver appropriate to the path, such as
+      `os.UserConfigDir`, `os.UserCacheDir`, `os.UserHomeDir`, or `os.TempDir`.
+      Tasks must forbid inferred environment conventions, string-concatenated
+      paths, and hardcoded Linux, macOS, or Windows directories.
+    - When the Go standard library has no native resolver for a required path
+      category, the applicable task must explicitly require a platform-specific
+      resolver with per-OS implementations and tests for supported platforms,
+      while preserving an implementation boundary for future Windows support.
 
 # Per-operation guidance (optional)
 # Add advisory guidance for how apply and archive work should be conducted.
