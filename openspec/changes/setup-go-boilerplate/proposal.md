@@ -12,6 +12,8 @@ O projeto ainda não possui uma base Go compilável e verificável sobre a qual 
 - Fixa Go 1.26.0 como requisito mínimo e Go 1.26.7 como toolchain preferida.
 - Adiciona comandos de desenvolvimento para format check, vet, testes, race detector e build.
 - Adiciona CI para build e testes em Linux e macOS.
+- Estabelece que paths devem ser construídos com `filepath` e partir de resolvedores semânticos nativos do Go, nunca de convenções inferidas ou caminhos hardcoded.
+- Estabelece que comportamentos específicos de sistema operacional devem ficar isolados em implementações explícitas por plataforma, com Linux e macOS cobertos inicialmente e Windows preservado como evolução futura.
 - Documenta o propósito, estado experimental, requisitos e fluxo básico de desenvolvimento.
 - Não cria antecipadamente packages de domínio, daemon, IPC, storage, adapters, PTY ou TUI.
 - Não adiciona dependências Go externas.
@@ -31,4 +33,5 @@ Nenhuma.
 - Novos arquivos de módulo, entry point, build information, CLI mínima, testes, Makefile e workflow de CI.
 - O comando público e futuros exemplos passam a usar `khs`.
 - Desenvolvedores precisam de uma instalação compatível com a seleção automática de toolchain do Go ou da toolchain preferida instalada localmente.
+- Todo código futuro que manipule paths ou varie por OS fica sujeito à convenção multiplataforma estabelecida nesta base.
 - Não há migração nem breaking change porque ainda não existe aplicação distribuída.

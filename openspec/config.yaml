@@ -26,6 +26,13 @@ context: |
   explicit platform-specific resolver with per-OS implementations and tests;
   never leave the path inferred or hardcoded in domain or application code.
 
+  Any behavior that varies by operating system, not only filesystem path
+  resolution, must be isolated behind an explicit platform boundary with
+  per-OS implementations and tests. Linux and macOS are the initial supported
+  platforms; designs must preserve a clean path to future Windows support and
+  must not let OS-specific conditionals or assumptions leak into domain or
+  application logic.
+
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
 # Example:

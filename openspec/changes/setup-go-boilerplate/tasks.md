@@ -3,6 +3,7 @@
 - [ ] 1.1 Initialize `github.com/jeanmolossi/kalika-harness-switcher` with `go 1.26.0` and `toolchain go1.26.7`, and verify `go env GOMOD` resolves to the repository module
 - [ ] 1.2 Create the `cmd/khs` entry point delegating arguments and standard streams to a testable CLI runner, and verify `go build -o bin/khs ./cmd/khs` succeeds
 - [ ] 1.3 Implement standard-library help, version, and unknown-input handling without placeholder future commands, and verify unit tests cover output streams and exit codes
+- [ ] 1.4 Establish and document the path rule that all Go path construction MUST use `filepath`, semantic roots MUST come from native resolvers such as `os.UserConfigDir`, `os.UserCacheDir`, `os.UserHomeDir`, and `os.TempDir`, and categories without a standard resolver MUST use explicit per-OS implementations; verify a source audit finds no inferred environment convention, string-concatenated path, or hardcoded Linux, macOS, or Windows directory
 
 ## 2. Build Information and Tests
 
@@ -14,7 +15,7 @@
 
 - [ ] 3.1 Add `bin/` and Go-generated local artifacts to `.gitignore` without ignoring source or OpenSpec files, and verify a local build leaves no untracked binary
 - [ ] 3.2 Add Makefile targets for `build`, `test`, `test-race`, `vet`, `fmt-check`, and `check`, and verify `make check` plus `make build` succeed
-- [ ] 3.3 Update the README with the experimental project purpose, native-harness boundary, Go requirement, build, test, and existing CLI usage, and verify every documented command is implemented and executable
+- [ ] 3.3 Update the README with the experimental project purpose, native-harness boundary, Go requirement, build, test, existing CLI usage, and the rule for `filepath`, native path resolvers, and isolated OS-specific behavior, and verify every documented command is implemented and the platform guidance matches the OpenSpec project context
 
 ## 4. Continuous Integration
 
