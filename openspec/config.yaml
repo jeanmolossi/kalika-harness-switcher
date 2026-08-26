@@ -1,0 +1,49 @@
+schema: spec-driven
+
+context: |
+  Project: Kalika Harness Switcher (`khs`), a local control plane for resolving
+  profiles and supervising isolated sessions of native AI coding harnesses.
+  It must configure and launch existing harnesses without reimplementing their
+  agent loops, tools, conversations, or vendor-owned session behavior.
+
+  Tech stack: Go. Initial platforms: Linux and macOS, with future Windows
+  support. Priorities, in order: simplicity, low coupling, modularity,
+  testability, security, performance, and few external dependencies.
+
+  Profiles describe desired capabilities. Security contexts describe execution
+  authority and credential references. Vendor-specific behavior belongs in
+  adapters; the resolver and session manager must not contain tool-name
+  conditionals. Configuration generated for one session must not mutate another
+  session or a user's global shell environment.
+
+  Filesystem paths must always be resolved through Go's native, platform-aware
+  APIs for the path's semantic category, such as os.UserConfigDir,
+  os.UserCacheDir, os.UserHomeDir, os.TempDir, and filepath operations. Never
+  infer a platform path from environment conventions, concatenate path strings,
+  or hardcode paths such as ~/.config, ~/.local/state, ~/Library, /tmp, or
+  Windows profile directories. When the Go standard library has no native
+  resolver for a required semantic category, isolate that decision behind an
+  explicit platform-specific resolver with per-OS implementations and tests;
+  never leave the path inferred or hardcoded in domain or application code.
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
