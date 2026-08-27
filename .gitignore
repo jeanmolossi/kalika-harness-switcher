@@ -1,0 +1,5 @@
+# Local Go build and test artifacts
+/bin/
+*.test
+*.prof
+coverage.out
